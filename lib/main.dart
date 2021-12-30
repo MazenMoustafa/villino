@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vallino/util/size_config.dart';
+import 'package:vallino/view/screens/select_user_screen.dart';
 import 'package:vallino/view/screens/splash_screen.dart';
 
 void main() {
@@ -19,6 +20,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -43,7 +45,7 @@ class _MainState extends State<Main> {
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
-    return SplashScreen();
+    return SelectUserScreen();
   }
 }
 
