@@ -5,7 +5,6 @@ class ColorResources {
 
 
   static const Color PRIMARY_COLOR = Color(0xffD8E40A);
-
   static const Color TF_TEXT_COLOR = Color(0xff79797A);
   static const Color TF_FILL_COLOR = Color(0xffF4F5F7);
 
