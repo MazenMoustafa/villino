@@ -39,8 +39,8 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                 width:150,
-                  height: 150,
+                 width:SizeConfig.screenWidth*0.4,
+                  height: SizeConfig.screenHeight*0.2,
 
                   decoration: BoxDecoration(
                       color: ColorResources.DARK_GREY,
@@ -64,8 +64,8 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                   width: responsiveWidth(10),
                 ),
                 Container(
-                  width:150,
-                  height: 150,
+                  width:SizeConfig.screenWidth*0.4,
+                  height: SizeConfig.screenHeight*0.2,
 
                   decoration: BoxDecoration(
                       color: ColorResources.PRIMARY_COLOR,
