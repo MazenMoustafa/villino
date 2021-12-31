@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vallino/util/size_config.dart';
-import 'package:vallino/view/screens/select_user_screen.dart';
-import 'package:vallino/view/screens/splash_screen.dart';
+
+import 'view/screens/select_user_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +26,10 @@ class _MyAppState extends State<MyApp> {
       ),
       home: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: Main(),
+        body: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Main()
+        ),
       ),
     );
   }

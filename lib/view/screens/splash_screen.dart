@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:vallino/util/size_config.dart';
 import 'package:vallino/view/shared/images/custom_assets_image.dart';
