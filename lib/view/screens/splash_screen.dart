@@ -23,9 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 // crossAxisAlignment:CrossAxisAlignment.center,
                 children: [
                   Container(
-
                   ),
-
                   CustomAssetsImage(SizeConfig.screenHeight * 0.15,
                       SizeConfig.screenWidth * 0.68, "assets/image/splash_logo.png"),
                   Padding(

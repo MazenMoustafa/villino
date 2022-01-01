@@ -29,6 +29,10 @@ dependencies:
   http: ^0.13.4 # make http requests
   form_field_validator: ^1.1.0 # form validator
   qr_flutter: ^4.0.0 # Generate QR Code
+  syncfusion_flutter_datepicker: ^19.4.40 # Date Picker
+  rflutter_alert: ^2.0.4 # Animated dialog
+  carousel_slider: ^4.0.0 # Image Carousel
+  custom_timer: ^0.1.1 # Countdown
 
 dev_dependencies:
   flutter_test:

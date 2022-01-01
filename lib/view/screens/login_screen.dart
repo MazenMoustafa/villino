@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:vallino/util/color_resources.dart';
 import 'package:vallino/util/size_config.dart';
+import 'package:vallino/view/screens/register_screen.dart';
 import 'package:vallino/view/shared/appBars.dart';
 import 'package:vallino/view/shared/buttons/text_button.dart';
 
@@ -12,113 +14,141 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  
   TextEditingController phoneContronller = TextEditingController();
   TextEditingController passwordContronller = TextEditingController();
+
+  bool rememberMe = false;
+  
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent, //or set color with: Color(0xFF0000FF)
+    ));
     return Scaffold(
       resizeToAvoidBottomInset: false,
-
-      appBar: AppBars.registrationAppBar("تسجيل الدخول", ColorResources.WHITE, ColorResources.PRIMARY_COLOR) ,
+      appBar: AppBars.registrationAppBar(
+          "تسجيل الدخول", ColorResources.WHITE, ColorResources.PRIMARY_COLOR),
       body: SafeArea(
         child: Container(
           width: SizeConfig.screenWidth,
           height: SizeConfig.screenHeight,
+          padding:
+              EdgeInsets.symmetric(horizontal: SizeConfig.screenWidth * 0.05),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
-                height: SizeConfig.screenHeight*0.155,
+                height: SizeConfig.screenHeight * 0.155,
               ),
-
               Center(
-
                 child: Container(
-                  child:Text("قم بتسجيل الدخول الأن",style: TextStyle(fontSize: 20),),
+                  child: Text(
+                    "قم بتسجيل الدخول الأن",
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
               ),
               SizedBox(
                 height: responsiveHeight(30),
               ),
-
-
               Form(
                   child: Column(
-                    children: [
-                      Container(
-                        width: SizeConfig.screenWidth * 0.9,
-                        child: TextFormField(
-                          //validator: ,
-                          controller: phoneContronller,
-                          decoration: decoration("رقم الهاتف", ColorResources.TF_TEXT_COLOR,"assets/image/ic_visitor_name.png"),
-                        ),
-                      ),
+                children: [
+                  Container(
+                    width: SizeConfig.screenWidth * 0.9,
+                    child: TextFormField(
+                      //validator: ,
+                      controller: phoneContronller,
+                      decoration: decoration(
+                          "رقم الهاتف",
+                          ColorResources.TF_TEXT_COLOR,
+                          "assets/image/ic_visitor_name.png"),
+                    ),
+                  ),
+                  SizedBox(
+                    height: responsiveHeight(15),
+                  ),
+                  Container(
+                    width: SizeConfig.screenWidth * 0.9,
+                    child: TextFormField(
+                      //validator: ,
+                      controller: passwordContronller,
+                      obscureText: true,
 
-                      SizedBox(
-                        height: responsiveHeight(15),
-                      ),
-
-
-
-                      Container(
-                        width: SizeConfig.screenWidth * 0.9,
-                        child: TextFormField(
-                          //validator: ,
-                          controller: passwordContronller,
-                          obscureText: true,
-
-                          decoration: decoration("كلمة المرور", ColorResources.TF_TEXT_COLOR,"assets/image/ic_lock.png"),
-                        ),
-                      ),
-
-
-                      SizedBox(
-                        height: responsiveHeight(15),
-                      ),
+                      decoration: decoration(
+                          "كلمة المرور",
+                          ColorResources.TF_TEXT_COLOR,
+                          "assets/image/ic_lock.png"),
+                    ),
+                  ),
+                  SizedBox(
+                    height: responsiveHeight(15),
+                  ),
 
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        child: Text("نذكرني"),
-                      ),
-                      SizedBox(
-                        width: SizeConfig.screenWidth * 0.55,
-                      ),
-                      Container(
-                        child: Text("هل نسيت كلمة المرور"),
-                      ),
+                      rememberMeAcceptanceText(),
 
+                      Text("هل نسيت كلمة المرور؟"),
                     ],
                   ),
-                      SizedBox(
-                        height: responsiveHeight(15),
-                      ),
-                      LongCustomSimpleTextButton("تسجيل الدخول",(){}
-                      ),
-                      SizedBox(
-                        height: SizeConfig.screenHeight*0.1,
-                      ),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("ليس لديك حساب ؟",style: TextStyle(fontSize: 20 )),
-                          Text("سجل الأن",style: TextStyle(color:ColorResources.PRIMARY_COLOR,fontSize: 20 ),)
-                        ],
+                  SizedBox(
+                    height: responsiveHeight(15),
+                  ),
+                  LongCustomSimpleTextButton("تسجيل الدخول", () {}),
+                  SizedBox(
+                    height: SizeConfig.screenHeight * 0.1,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("ليس لديك حساب ؟", style: TextStyle(fontSize: 20)),
+                      GestureDetector(
+                        onTap: (){Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => RegisterScreen()));},
+                        child: Text(
+                          "سجل الأن",
+                          style: TextStyle(
+                              color: ColorResources.PRIMARY_COLOR, fontSize: 20),
+                        ),
                       )
-
-
                     ],
                   )
-              )
+                ],
+              ))
             ],
           ),
         ),
-
       ),
     );
   }
 
+  // UI
+  Widget rememberMeAcceptanceText() {
+    Color getColor(Set<MaterialState> states) {
+      return ColorResources.PRIMARY_COLOR;
+    }
+
+    return Row(
+      children: [
+        Checkbox(
+          checkColor: ColorResources.WHITE,
+          fillColor: MaterialStateProperty.resolveWith(getColor),
+          value: rememberMe,
+          onChanged: (bool? value) {
+            setState(() {
+              rememberMe = value!;
+            }
+            );
+          },
+        ),
+        Text("تذكرني",style: TextStyle(fontSize: 15)),
+      ],
+    );
+  }
+
+  // Decoration
   InputDecoration decoration(String text, Color textColor, String dir) {
     return InputDecoration(
       //contentPadding: EdgeInsets.symmetric(vertical: responsiveHeight(20), horizontal: responsiveWidth(20)), // The Content PAdding gets changed when an error appears
@@ -127,25 +157,25 @@ class _LoginScreenState extends State<LoginScreen> {
       labelStyle: TextStyle(color: textColor, height: 0.75),
       fillColor: ColorResources.TF_FILL_COLOR,
       filled: true,
-      prefixIconConstraints: BoxConstraints(
-          minHeight: 30,
-          minWidth: 30
-      ),
+      prefixIconConstraints: BoxConstraints(minHeight: 30, minWidth: 30),
       border: OutlineInputBorder(
         borderSide: BorderSide.none,
         borderRadius: BorderRadius.circular(50),
       ),
       prefixIcon: Padding(
-        padding: EdgeInsets.only(right: responsiveWidth(16), left: responsiveWidth(8), bottom: responsiveHeight(10), ),
+        padding: EdgeInsets.only(
+          right: responsiveWidth(16),
+          left: responsiveWidth(8),
+          bottom: responsiveHeight(10),
+        ),
         child: Container(
           height: 30,
           width: 30,
-          decoration:  BoxDecoration(
+          decoration: BoxDecoration(
               image: DecorationImage(
-                fit: BoxFit.fill,
-                image: AssetImage(dir),
-              )
-          ),
+            fit: BoxFit.fill,
+            image: AssetImage(dir),
+          )),
         ),
       ),
     );

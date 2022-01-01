@@ -5,14 +5,19 @@ class ColorResources {
 
 
   static const Color PRIMARY_COLOR = Color(0xffD8E40A);
+
   static const Color TF_TEXT_COLOR = Color(0xff79797A);
   static const Color TF_FILL_COLOR = Color(0xffF4F5F7);
+
+  static const Color HOME_ELEMENT_FILL_COLOR = Color(0xffF5F8BF);
+
+  static const Color LIGHT_GREY = Color(0xffEBF1F5);
 
   static const Color WHITE_PRIMARY_COLOR = Color(0xffE7D3DF);
   static const Color BG_COLOR = Color.fromRGBO(246, 238, 238, 1);
 
   static const Color HINT_TEXT_COLOR = Color(0xff9E9E9E);
-  static const Color LIGHT_GREY = Color(0xffF4F5F7);
+
   static const Color DARK_GREY = Color(0xff707070);
   static const Color WHITE_GREY = Color(0xffF4F5F6);
 
