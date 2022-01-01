@@ -13,14 +13,14 @@ class LongCustomSimpleTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: responsiveHeight(50),
-      width: SizeConfig.screenWidth * 0.8,
+      width: SizeConfig.screenWidth * 0.9,
       child: TextButton(
           onPressed: fun,
-          child: Center(child: Text(txt, style: TextStyle(color: ColorResources.WHITE,fontSize: 16, height: 1), )),
+          child: Center(child: Text(txt, style: TextStyle(color: ColorResources.WHITE,fontSize: 20, height: 1), )),
           style: TextButton.styleFrom(
               backgroundColor: ColorResources.PRIMARY_COLOR,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(responsiveSize(5))
+                  borderRadius: BorderRadius.circular(responsiveSize(20))
               )
 
           )

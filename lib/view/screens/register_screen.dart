@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:vallino/util/color_resources.dart';
 import 'package:vallino/util/size_config.dart';
 import 'package:vallino/view/shared/buttons/icon_button.dart';
+import 'package:vallino/view/shared/buttons/text_button.dart';
 import 'package:vallino/view/shared/images/custom_assets_image.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -15,17 +16,32 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
 
   TextEditingController nameContronller = TextEditingController();
+  TextEditingController phoneContronller = TextEditingController();
+  TextEditingController familyMembersNumberContronller = TextEditingController();
+  TextEditingController unitNumberContronller = TextEditingController();
+  TextEditingController emailContronller = TextEditingController();
+  TextEditingController passwordContronller = TextEditingController();
+
+
+  bool terms = false;
+
+
+
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent, //or set color with: Color(0xFF0000FF)
     ));
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: ColorResources.WHITE,
       body: SafeArea(
-        child: Container(
+        child:
+        Container(
           width: SizeConfig.screenWidth,
+          height: SizeConfig.screenHeight,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -45,9 +61,111 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: TextFormField(
                           //validator: ,
                           controller: nameContronller,
-                          decoration: decoration("الأسم", ColorResources.TF_TEXT_COLOR),
+                          decoration: decoration("الاسم كامل", ColorResources.TF_TEXT_COLOR),
                         ),
-                      )
+                      ),
+
+                      SizedBox(
+                        height: responsiveHeight(15),
+                      ),
+
+                      Row(
+                        children: [
+                          Container(
+                           padding:  EdgeInsets.only(right: responsiveWidth(15)),
+                          width: SizeConfig.screenWidth * 0.7,
+                          child: TextFormField(
+                            //validator: ,
+                            controller: phoneContronller,
+                            decoration: decoration("رقم الهاتف", ColorResources.TF_TEXT_COLOR),
+                          ),
+                        ),
+                     ] ),
+
+                      SizedBox(
+                        height: responsiveHeight(15),
+                      ),
+
+                      Container(
+                        width: SizeConfig.screenWidth * 0.9,
+                        child: TextFormField(
+                          //validator: ,
+                          controller: familyMembersNumberContronller,
+                          decoration: decoration("عدد أفراد الأسرة", ColorResources.TF_TEXT_COLOR),
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: responsiveHeight(15),
+                      ),
+
+                      Container(
+                        width: SizeConfig.screenWidth * 0.9,
+                        child: TextFormField(
+                          //validator: ,
+                          controller: unitNumberContronller,
+                          decoration: decoration("رقم الوحدة", ColorResources.TF_TEXT_COLOR),
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: responsiveHeight(15),
+                      ),
+
+                      Container(
+                        width: SizeConfig.screenWidth * 0.9,
+                        child: TextFormField(
+                          //validator: ,
+                          controller: emailContronller,
+                          decoration: decoration("الايميل", ColorResources.TF_TEXT_COLOR),
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: responsiveHeight(15),
+                      ),
+
+                      Container(
+                        width: SizeConfig.screenWidth * 0.9,
+
+                        child: TextFormField(
+                          //validator: ,
+                          controller: passwordContronller,
+                          obscureText: true,
+                          decoration: decoration("كلمة المرور", ColorResources.TF_TEXT_COLOR),
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: responsiveHeight(15),
+                      ),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(("من خلال التسجيل معنا فإنك توافق علي كافة الشروط والسياسات"), style: TextStyle(fontSize: 15)
+                          ),
+
+                          // Checkbox(
+                          //   checkColor: Colors.white,
+                          //
+                          //   //focusColor: ColorResources.PRIMARY_COLOR,
+                          //   fillColor: MaterialStateProperty.resolveWith(getColor),
+                          //   value: terms,
+                          //   onChanged: (bool? value) {
+                          //     setState(() {
+                          //       terms = value!;
+                          //     }
+                          //     );
+                          //   },
+                          // ),
+
+                        ],
+                      ),
+
+                      LongCustomSimpleTextButton("تسجيل الدخول",(){}),
+
+
                     ],
                   )
               )
@@ -58,25 +176,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  // UI
-  PreferredSizeWidget renderAppBar() {
-    return AppBar(
-      title: Text("سجيل الدخول"),
-      centerTitle: true,
-      backgroundColor: ColorResources.PRIMARY_COLOR,
-      elevation: 0,
-      bottom: PreferredSize(
-        preferredSize: Size.fromHeight(10),
-        child: Container(
-          height: 10,
-          decoration: BoxDecoration(
-            color: ColorResources.WHITE,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(200.0)),
-          ),
-        ),
-      ),
-    );
-  }
+
 
   // Decorations
   InputDecoration decoration(String text, Color textColor) {

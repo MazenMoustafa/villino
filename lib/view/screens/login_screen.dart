@@ -1,31 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:vallino/util/color_resources.dart';
 import 'package:vallino/util/size_config.dart';
 import 'package:vallino/view/shared/appBars.dart';
-import 'package:vallino/view/shared/images/custom_assets_image.dart';
 import 'package:vallino/view/shared/buttons/text_button.dart';
 
-class GuetFormScreen extends StatefulWidget {
-  const GuetFormScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  _GuetFormScreenState createState() => _GuetFormScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _GuetFormScreenState extends State<GuetFormScreen> {
-  TextEditingController nameContronller = TextEditingController();
+class _LoginScreenState extends State<LoginScreen> {
   TextEditingController phoneContronller = TextEditingController();
-  TextEditingController visitDateContronller = TextEditingController();
-
+  TextEditingController passwordContronller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent, //or set color with: Color(0xFF0000FF)
-    ));
     return Scaffold(
+      resizeToAvoidBottomInset: false,
 
-      appBar: AppBars.registrationAppBar("زائر", ColorResources.WHITE, ColorResources.PRIMARY_COLOR) ,
+      appBar: AppBars.registrationAppBar("تسجيل الدخول", ColorResources.WHITE, ColorResources.PRIMARY_COLOR) ,
       body: SafeArea(
         child: Container(
           width: SizeConfig.screenWidth,
@@ -34,7 +28,17 @@ class _GuetFormScreenState extends State<GuetFormScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
-                height: responsiveHeight(60),
+                height: SizeConfig.screenHeight*0.155,
+              ),
+
+              Center(
+
+                child: Container(
+                  child:Text("قم بتسجيل الدخول الأن",style: TextStyle(fontSize: 20),),
+                ),
+              ),
+              SizedBox(
+                height: responsiveHeight(30),
               ),
 
 
@@ -45,8 +49,8 @@ class _GuetFormScreenState extends State<GuetFormScreen> {
                         width: SizeConfig.screenWidth * 0.9,
                         child: TextFormField(
                           //validator: ,
-                          controller: nameContronller,
-                          decoration: decoration("اسم الزائر", ColorResources.TF_TEXT_COLOR,"assets/image/ic_visitor_name.png"),
+                          controller: phoneContronller,
+                          decoration: decoration("رقم الهاتف", ColorResources.TF_TEXT_COLOR,"assets/image/ic_visitor_name.png"),
                         ),
                       ),
 
@@ -54,39 +58,54 @@ class _GuetFormScreenState extends State<GuetFormScreen> {
                         height: responsiveHeight(15),
                       ),
 
-                      Row(
-                          children: [
-                            Container(
-                              padding:  EdgeInsets.only(right: responsiveWidth(15)),
-                              width: SizeConfig.screenWidth * 0.7,
-                              child: TextFormField(
-                                //validator: ,
-                                controller: phoneContronller,
-                                decoration: decoration("رقم تليفون الزائر", ColorResources.TF_TEXT_COLOR,"assets/image/ic_phone.png"),
-                              ),
-                            ),
-                          ] ),
 
-                      SizedBox(
-                        height: responsiveHeight(15),
-                      ),
 
                       Container(
                         width: SizeConfig.screenWidth * 0.9,
                         child: TextFormField(
                           //validator: ,
-                          controller: visitDateContronller,
-                          decoration: decoration("تاريخ الزيارة", ColorResources.TF_TEXT_COLOR,"assets/image/ic_visit_date.png"),
+                          controller: passwordContronller,
+                          obscureText: true,
+
+                          decoration: decoration("كلمة المرور", ColorResources.TF_TEXT_COLOR,"assets/image/ic_lock.png"),
                         ),
                       ),
 
 
                       SizedBox(
-                        height: SizeConfig.screenHeight*0.4,
+                        height: responsiveHeight(15),
                       ),
 
+                  Row(
+                    children: [
+                      Container(
+                        child: Text("نذكرني"),
+                      ),
+                      SizedBox(
+                        width: SizeConfig.screenWidth * 0.55,
+                      ),
+                      Container(
+                        child: Text("هل نسيت كلمة المرور"),
+                      ),
 
-                      LongCustomSimpleTextButton("مسح الكود",(){}),
+                    ],
+                  ),
+                      SizedBox(
+                        height: responsiveHeight(15),
+                      ),
+                      LongCustomSimpleTextButton("تسجيل الدخول",(){}
+                      ),
+                      SizedBox(
+                        height: SizeConfig.screenHeight*0.1,
+                      ),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("ليس لديك حساب ؟",style: TextStyle(fontSize: 20 )),
+                          Text("سجل الأن",style: TextStyle(color:ColorResources.PRIMARY_COLOR,fontSize: 20 ),)
+                        ],
+                      )
 
 
                     ],
@@ -100,7 +119,6 @@ class _GuetFormScreenState extends State<GuetFormScreen> {
     );
   }
 
-  // Decorations
   InputDecoration decoration(String text, Color textColor, String dir) {
     return InputDecoration(
       //contentPadding: EdgeInsets.symmetric(vertical: responsiveHeight(20), horizontal: responsiveWidth(20)), // The Content PAdding gets changed when an error appears
