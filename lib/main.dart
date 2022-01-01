@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vallino/util/size_config.dart';
 import 'package:vallino/view/screens/about_us_screen.dart';
 import 'package:vallino/view/screens/guest_form_screen.dart';
+import 'package:vallino/view/screens/home_screen.dart';
 import 'package:vallino/view/screens/login_screen.dart';
 import 'package:vallino/view/screens/register_screen.dart';
 import 'package:vallino/view/screens/splash_screen.dart';
