@@ -13,7 +13,8 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-          child: Container(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: responsiveHeight(10),horizontal: responsiveWidth(20)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -34,28 +35,19 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                   height:responsiveHeight(10) ,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomAssetsImage(responsiveHeight(80),
-                        SizeConfig.screenWidth * 0.21, "assets/image/about_us_1.png"
-                    ),
-                    SizedBox(
-                      width:responsiveWidth(10) ,
+                        SizeConfig.screenWidth * 0.20, "assets/image/about_us_1.png"
                     ),
                     CustomAssetsImage(responsiveHeight(80),
-                        SizeConfig.screenWidth * 0.21, "assets/image/about_us_1.png"
-                    ),
-                    SizedBox(
-                      width:responsiveWidth(10) ,
+                        SizeConfig.screenWidth * 0.20, "assets/image/about_us_1.png"
                     ),
                     CustomAssetsImage(responsiveHeight(80),
-                        SizeConfig.screenWidth * 0.21, "assets/image/about_us_1.png"
-                    ),
-                    SizedBox(
-                      width:responsiveWidth(10) ,
+                        SizeConfig.screenWidth * 0.20, "assets/image/about_us_1.png"
                     ),
                     CustomAssetsImage(responsiveHeight(80),
-                        SizeConfig.screenWidth * 0.21, "assets/image/about_us_1.png"
+                        SizeConfig.screenWidth * 0.20, "assets/image/about_us_1.png"
                     ),
                   ],
                 ),
