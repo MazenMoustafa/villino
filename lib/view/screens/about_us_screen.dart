@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:vallino/http/about_us.dart';
+import 'package:vallino/http/about_us_services.dart';
 import 'package:vallino/util/size_config.dart';
 import 'package:vallino/view/shared/images/custom_assets_image.dart';
+import 'package:vallino/view/shared/images/custom_network_image.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 class AboutUsScreen extends StatefulWidget {
   const AboutUsScreen({Key? key}) : super(key: key);
 
@@ -11,13 +15,15 @@ class AboutUsScreen extends StatefulWidget {
 }
 
 class _AboutUsScreenState extends State<AboutUsScreen> {
-  late Future whoAreWeFuture;
+  late Future aboutUsFuture;
+  late Future imagesFuture;
   
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    whoAreWeFuture = AboutUsServices.getAboutDetails(context);
+    aboutUsFuture = AboutUsServices.getAboutDetails(context);
+    imagesFuture = AboutUsServices.getImages(context);
   }
   
   @override
@@ -41,31 +47,9 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                   SizedBox(
                     height:responsiveHeight(20) ,
                   ),
-                  Center(
-                    child: CustomAssetsImage(SizeConfig.screenHeight*0.22,
-                        SizeConfig.screenWidth * 0.92, "assets/image/about_us_1.png"
-                    ),
-                  ),
-                  SizedBox(
-                    height:responsiveHeight(10) ,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomAssetsImage(responsiveHeight(80),
-                          SizeConfig.screenWidth * 0.20, "assets/image/about_us_1.png"
-                      ),
-                      CustomAssetsImage(responsiveHeight(80),
-                          SizeConfig.screenWidth * 0.20, "assets/image/about_us_1.png"
-                      ),
-                      CustomAssetsImage(responsiveHeight(80),
-                          SizeConfig.screenWidth * 0.20, "assets/image/about_us_1.png"
-                      ),
-                      CustomAssetsImage(responsiveHeight(80),
-                          SizeConfig.screenWidth * 0.20, "assets/image/about_us_1.png"
-                      ),
-                    ],
-                  ),
+
+                  renderImages(),
+
                   SizedBox(
                     height:responsiveHeight(10) ,
                   ),
@@ -85,6 +69,12 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                     height:responsiveHeight(5) ,
                   ),
 
+                  // Container(
+                  //     child: WebView(
+                  //       initialUrl: Uri.dataFromString('<iframe src=\"https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3623.653110711322!2d46.6393623!3d24.7387867!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2ee3356d0a8f25%3A0xf1957f950082e5b5!2z2YjYstin2LHYqSDYp9mE2KfYqti12KfZhNin2Kog2YjYqtmC2YbZitipINin2YTZhdi52YTZiNmF2KfYqg!5e0!3m2!1sar!2seg!4v1641045248050!5m2!1sar!2seg\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\"></iframe>').toString(),
+                  //       javascriptMode: JavascriptMode.unrestricted,
+                  //     )),
+
                   CustomAssetsImage(SizeConfig.screenHeight * 0.2, SizeConfig.screenWidth * 0.9, "assets/image/about_us_map.png"),
                   SizedBox(
                     height:responsiveHeight(10) ,
@@ -100,7 +90,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
   // UI
   Widget renderAboutUsText() {
     return FutureBuilder(
-        future: whoAreWeFuture,
+        future: aboutUsFuture,
         builder: (BuildContext ctx, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Container();
@@ -108,7 +98,51 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
             if (snapshot.hasError)
             return Text("Error");
           else {
-            return Text(snapshot.data);
+            return Text("snapshot.data");
+          }
+        });
+  }
+
+
+  Widget renderImages() {
+    return FutureBuilder(
+        future: imagesFuture,
+        builder: (BuildContext ctx, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container();
+          } else
+          if (snapshot.hasError)
+            return Text("Error");
+          else {
+            return Column(
+              children: [
+                Center(
+                  child: CustomNetworkImage(SizeConfig.screenHeight*0.22,
+                      SizeConfig.screenWidth * 0.92, snapshot.data[0].toString()
+                  ),
+                ),
+                SizedBox(
+                  height:responsiveHeight(10) ,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomNetworkImage(responsiveHeight(80),
+                        SizeConfig.screenWidth * 0.20, snapshot.data[0].toString()
+                    ),
+                    CustomNetworkImage(responsiveHeight(80),
+                        SizeConfig.screenWidth * 0.20, snapshot.data[1].toString()
+                    ),
+                    CustomNetworkImage(responsiveHeight(80),
+                        SizeConfig.screenWidth * 0.20, snapshot.data[2].toString()
+                    ),
+                    CustomNetworkImage(responsiveHeight(80),
+                        SizeConfig.screenWidth * 0.20, snapshot.data[3].toString()
+                    ),
+                  ],
+                ),
+              ],
+            );
           }
         });
   }

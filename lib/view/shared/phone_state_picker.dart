@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:vallino/models/country.dart';
 import 'package:vallino/util/color_resources.dart';
 import 'package:vallino/util/size_config.dart';
 
@@ -17,75 +18,91 @@ class _PhoneStatePickerState extends State<PhoneStatePicker> {
   List countriesCodes = [2];
   List<String> countriesImages = ["assets/image/egypt_flag.png"];
 
-  String choosenCountry = "Egypt";
+  List<CountryModel> countries = [
+    CountryModel("Egypt", 2, "assets/image/egypt_flag.png"),
+    // CountryModel("Egypt", 2, "assets/image/egypt_flag.png"),
+    // CountryModel("Egypt", 2, "assets/image/egypt_flag.png")
+  ];
+
+  CountryModel choosenCountry = CountryModel("Egypt", 2, "assets/image/egypt_flag.png");
+
+  @override
+  void initState() {
+    // ToDo Fetch Countries
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<String>(
+    return DropdownButtonFormField<CountryModel>(
+      iconSize: 0.0,
       focusColor: Colors.white,
+      isExpanded: true,
       //dropdownColor: ColorResources.PRIMARY_COLOR, // Items back ground
 
-      value: choosenCountry, // Initial Value
+      value: countries[0], // Initial Value
       //elevation: 5,
       iconEnabledColor: Colors.black,
       // m4 3ar bt3ml eh
 
       // Selected Item decoration
       selectedItemBuilder: (BuildContext context) {
-        return countriesNames.map((String value) {
-          return Text(
-            value,
-            style: const TextStyle(color: Colors.black),
+        return countries.map((CountryModel value) {
+          return Center(
+            child: Container(
+              // height: responsiveHeight(20),
+              // width: responsiveWidth(20),
+              decoration: BoxDecoration(
+                  color: ColorResources.PRIMARY_COLOR.withOpacity(0),
+                  image : DecorationImage(
+                      image: AssetImage(value.flag),
+                      fit: BoxFit.fill)),
+            ),
           );
+          //   Text(
+          //   value,
+          //   style: const TextStyle(color: Colors.black),
+          // );
         }).toList();
       },
       // Items decoration
-      items: countriesNames.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
+      items: countries.map<DropdownMenuItem<CountryModel>>( (CountryModel value) {
+        return DropdownMenuItem<CountryModel>(
           value: value,
-          child: Text(
-            value,
-            style: TextStyle(color: Colors.black),
-          ),
+          child: Center(
+            child: Container(
+              height: responsiveHeight(30),
+              width: responsiveWidth(30),
+                decoration: BoxDecoration(
+                    color: ColorResources.PRIMARY_COLOR.withOpacity(0),
+                    image : DecorationImage(
+                        image: AssetImage(value.flag),
+                        fit: BoxFit.fill)),
+              ),
+          )
         );
       }).toList(),
 
       // The used one
-      decoration: decoration("assets/image/egypt_flag.png"),
+      decoration: decoration(),
       // The hint here not used
-      onChanged: (String? value) {
-        log(value!);
+      onChanged: (CountryModel? value) {
+        choosenCountry = value!;
       },
     );
 
   }
 
-  InputDecoration decoration(String dir) {
+  InputDecoration decoration() {
     return InputDecoration(
       //contentPadding: EdgeInsets.symmetric(vertical: responsiveHeight(20), horizontal: responsiveWidth(20)), // The Content PAdding gets changed when an error appears
       floatingLabelBehavior: FloatingLabelBehavior.never,
       fillColor: ColorResources.TF_FILL_COLOR,
       filled: true,
-      prefixIconConstraints: BoxConstraints(minHeight: 30, minWidth: 30),
       border: OutlineInputBorder(
         borderSide: BorderSide.none,
         borderRadius: BorderRadius.circular(50),
-      ),
-      prefixIcon: Padding(
-        padding: EdgeInsets.only(
-          right: responsiveWidth(16),
-          left: responsiveWidth(8),
-          bottom: responsiveHeight(10),
-        ),
-        child: Container(
-          height: 30,
-          width: 30,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.fill,
-                image: AssetImage(dir),
-              )),
-        ),
       ),
     );
   }

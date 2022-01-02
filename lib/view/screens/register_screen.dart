@@ -65,7 +65,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               width: SizeConfig.screenWidth * 0.9,
                               child: TextFormField(
                                 validator: MultiValidator([
-                                  RequiredValidator(errorText: "Required")
+                                  RequiredValidator(errorText: "هذا الحقل يجب الا يترك فارغاً")
                                 ]),
                                 controller: nameContronller,
                                 decoration: decoration("الاسم كامل", ColorResources.TF_TEXT_COLOR),
@@ -78,22 +78,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    width: SizeConfig.screenWidth * 0.5,
+                                    width: SizeConfig.screenWidth * 0.75,
                                     child: TextFormField(
                                       validator: MultiValidator([
-                                        RequiredValidator(errorText: "Required"),
+                                        RequiredValidator(errorText: "هذا الحقل يجب الا يترك فارغاً"),
                                         LYDPhoneValidator(errorText: "Numbers")
                                       ]),
                                       controller: phoneContronller,
                                       decoration: decoration("رقم الهاتف", ColorResources.TF_TEXT_COLOR),
                                     ),
                                   ),
-                                  // Container(
-                                  //     width: SizeConfig.screenWidth * 0.4,
-                                  //     child: PhoneStatePicker()
-                                  // )
+                                  Container(
+                                      width: SizeConfig.screenWidth * 0.13,
+                                      child: PhoneStatePicker()
+                                  )
                                 ]
                             ),
 
@@ -105,7 +106,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                               child: TextFormField(
                                 validator: MultiValidator([
-                                  RequiredValidator(errorText: "Required"),
+                                  RequiredValidator(errorText: "هذا الحقل يجب الا يترك فارغاً"),
                                   LYDPhoneValidator(errorText: "Numbers")
                                 ]),
                                 controller: familyMembersNumberContronller,
@@ -121,7 +122,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                               child: TextFormField(
                                 validator: MultiValidator([
-                                  RequiredValidator(errorText: "Required"),
+                                  RequiredValidator(errorText: "هذا الحقل يجب الا يترك فارغاً"),
                                 ]),
                                 controller: unitNumberContronller,
                                 decoration: decoration("رقم الوحدة", ColorResources.TF_TEXT_COLOR),
@@ -136,8 +137,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                               child: TextFormField(
                                 validator: MultiValidator([
-                                  RequiredValidator(errorText: "Required"),
-                                  EmailValidator(errorText: "Email")
+                                  RequiredValidator(errorText: "هذا الحقل يجب الا يترك فارغاً"),
+                                  EmailValidator(errorText: "هذا الحقل يجب أن يطابق مواصفات البريد الإلكتروني")
                                 ]),
                                 controller: emailContronller,
                                 decoration: decoration("الايميل", ColorResources.TF_TEXT_COLOR),
@@ -153,7 +154,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                               child: TextFormField(
                                 validator: MultiValidator([
-                                  RequiredValidator(errorText: "Required"),
+                                  RequiredValidator(errorText: "هذا الحقل يجب الا يترك فارغاً"),
                                   MinLengthValidator(8, errorText:  '8 min length'),
                                 ]),
                                 controller: passwordContronller,

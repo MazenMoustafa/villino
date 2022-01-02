@@ -40,6 +40,7 @@ class _MyAppState extends State<MyApp> {
       locale: Locale("ar", "AE"), // OR Locale('ar', 'AE') OR Other RTL locales,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: "Cairo"
       ),
       home: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -62,7 +63,7 @@ class _MainState extends State<Main> {
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
-    return GuetFormScreen();
+    return SplashScreen();
   }
 }
 

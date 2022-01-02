@@ -7,13 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vallino/http/qr_service.dart';
 import 'package:vallino/util/color_resources.dart';
 import 'package:vallino/util/size_config.dart';
+import 'package:vallino/view/screens/about_us_screen.dart';
+import 'package:vallino/view/screens/select_user_screen.dart';
 import 'package:vallino/view/shared/appBars.dart';
 import 'package:vallino/view/shared/buttons/icon_button.dart';
 import 'package:vallino/view/shared/buttons/text_button.dart';
 import 'package:vallino/view/shared/images/custom_assets_image.dart';
+import 'package:vallino/view/shared/toasts.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -23,6 +27,23 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  late SharedPreferences prefs;
+
+
+  @override
+  void initState() {
+    initAwaits();
+  }
+
+  Future<void> initAwaits() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -31,30 +52,39 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBars.homeAppBar(context),
 
-      body: Padding(
-        padding: EdgeInsets.all(20),
+      body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("الأقسام الرئيسية", style: TextStyle(fontSize: responsiveSize(16)),),
-            SizedBox(height: responsiveHeight(10),),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                sectionElement("دخول فالينو", "assets/image/home_enter.png", (){onEnterClick();}),
-                SizedBox(width: responsiveWidth(10),),
-                sectionElement("الخدمات", "assets/image/home_services.png", null)
-              ],
-            ),
-            SizedBox(height: responsiveHeight(10),),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                sectionElement("الاحداث و الفعاليات", "assets/image/home_events.png", null),
-                SizedBox(width: responsiveWidth(10),),
-                sectionElement("منتدي الأعضاء", "assets/image/home_forum.png", null)
-              ],
-            ),
+            carousel(),
+            SizedBox(height: responsiveHeight(20),),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+
+                  Text("الأقسام الرئيسية", style: TextStyle(fontSize: responsiveSize(16)),),
+                  SizedBox(height: responsiveHeight(10),),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      sectionElement("دخول فالينو", "assets/image/home_enter.png", (){Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SelectUserScreen()));}), //
+                      SizedBox(width: responsiveWidth(10),),
+                      sectionElement("الخدمات", "assets/image/home_services.png", (){showToast(context, "سوف يتم تفعيل هذا القسم قريباً");})
+                    ],
+                  ),
+                  SizedBox(height: responsiveHeight(10),),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      sectionElement("الاحداث و الفعاليات", "assets/image/home_events.png", (){showToast(context, "سوف يتم تفعيل هذا القسم قريباً");}),
+                      SizedBox(width: responsiveWidth(10),),
+                      sectionElement("عن فالينو", "assets/image/home_forum.png", (){Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => AboutUsScreen()));})
+                    ],
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
@@ -62,6 +92,171 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // UI
+
+  Widget carousel(){
+    return Container(
+      child: CarouselSlider(
+          items: [
+            Container(
+              height: SizeConfig.screenHeight * 0.2,
+                width: SizeConfig.screenWidth,
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                    color: ColorResources.PRIMARY_COLOR.withOpacity(0),
+                    image : DecorationImage(
+                        image: AssetImage('assets/image/home_carousel.png'),
+                        fit: BoxFit.fill)),
+                  child: Container(
+                    height: SizeConfig.screenHeight * 0.18,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("افضل الخدمات مع أفضل الأماكن", style: TextStyle(color: ColorResources.WHITE, fontWeight: FontWeight.bold),),
+                                  Text("تمتع بأفضل الخدامات بأفضل الأسعار", style: TextStyle(color: ColorResources.WHITE, fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                              CustomComplexTextButton(
+                                  responsiveHeight(35), SizeConfig.screenWidth * 0.3, responsiveSize(50),
+                                  "تصفح الان", ColorResources.BLACK, ColorResources.WHITE, responsiveSize(16), (){
+                              })
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: SizeConfig.screenHeight * 0.18,
+                          width: SizeConfig.screenWidth * 0.4,
+                          //image: DecorationImage(image: NetworkImage('http://127.0.0.1:8000/storage/app/public/' + ad.images[0]), fit: BoxFit.fill)
+                            decoration: BoxDecoration(
+                                color: ColorResources.PRIMARY_COLOR.withOpacity(0),
+                                image : DecorationImage(
+                                    image: AssetImage('assets/image/home_carousel_2.png'),
+                                    fit: BoxFit.fill))
+                        ),
+
+                      ],
+                    ),
+                  ),
+            ),
+            Container(
+              height: SizeConfig.screenHeight * 0.2,
+              width: SizeConfig.screenWidth,
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                  color: ColorResources.PRIMARY_COLOR.withOpacity(0),
+                  image : DecorationImage(
+                      image: AssetImage('assets/image/home_carousel.png'),
+                      fit: BoxFit.fill)),
+              child: Container(
+                height: SizeConfig.screenHeight * 0.18,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("افضل الخدمات مع أفضل الأماكن", style: TextStyle(color: ColorResources.WHITE, fontWeight: FontWeight.bold),),
+                              Text("تمتع بأفضل الخدامات بأفضل الأسعار", style: TextStyle(color: ColorResources.WHITE, fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                          CustomComplexTextButton(
+                              responsiveHeight(35), SizeConfig.screenWidth * 0.3, responsiveSize(50),
+                              "تصفح الان", ColorResources.BLACK, ColorResources.WHITE, responsiveSize(16), (){
+                          })
+                        ],
+                      ),
+                    ),
+                    Container(
+                        height: SizeConfig.screenHeight * 0.18,
+                        width: SizeConfig.screenWidth * 0.4,
+                        //image: DecorationImage(image: NetworkImage('http://127.0.0.1:8000/storage/app/public/' + ad.images[0]), fit: BoxFit.fill)
+                        decoration: BoxDecoration(
+                            color: ColorResources.PRIMARY_COLOR.withOpacity(0),
+                            image : DecorationImage(
+                                image: AssetImage('assets/image/home_carousel_2.png'),
+                                fit: BoxFit.fill))
+                    ),
+
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              height: SizeConfig.screenHeight * 0.2,
+              width: SizeConfig.screenWidth,
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                  color: ColorResources.PRIMARY_COLOR.withOpacity(0),
+                  image : DecorationImage(
+                      image: AssetImage('assets/image/home_carousel.png'),
+                      fit: BoxFit.fill)),
+              child: Container(
+                height: SizeConfig.screenHeight * 0.18,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("افضل الخدمات مع أفضل الأماكن", style: TextStyle(color: ColorResources.WHITE, fontWeight: FontWeight.bold),),
+                              Text("تمتع بأفضل الخدامات بأفضل الأسعار", style: TextStyle(color: ColorResources.WHITE, fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                          CustomComplexTextButton(
+                              responsiveHeight(35), SizeConfig.screenWidth * 0.3, responsiveSize(50),
+                              "تصفح الان", ColorResources.BLACK, ColorResources.WHITE, responsiveSize(16), (){
+                          })
+                        ],
+                      ),
+                    ),
+                    Container(
+                        height: SizeConfig.screenHeight * 0.18,
+                        width: SizeConfig.screenWidth * 0.4,
+                        //image: DecorationImage(image: NetworkImage('http://127.0.0.1:8000/storage/app/public/' + ad.images[0]), fit: BoxFit.fill)
+                        decoration: BoxDecoration(
+                            color: ColorResources.PRIMARY_COLOR.withOpacity(0),
+                            image : DecorationImage(
+                                image: AssetImage('assets/image/home_carousel_2.png'),
+                                fit: BoxFit.fill))
+                    ),
+
+                  ],
+                ),
+              ),
+            ),
+          ],
+          options: CarouselOptions(
+
+            autoPlay: false,
+            enlargeCenterPage: true,
+            viewportFraction: 1, // Full Width
+            aspectRatio: 2.0,
+            initialPage: 1,
+          )
+      ),
+    );
+  }
+
   Widget sectionElement(String text, String dir, VoidCallback? fun){
     return Expanded(
       child: InkWell(
@@ -98,93 +293,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Alert showQRCode(BuildContext context, String text, double size) {
-    final CustomTimerController _controller = CustomTimerController();
-    _controller.start();
 
-    bool timeOut = false;
-    return Alert(
-      context: context,
-      padding: EdgeInsets.zero,
-      content: StatefulBuilder(
-        builder: (BuildContext context, StateSetter setState){
-          return Container(
-            height: SizeConfig.screenHeight * 0.5,
-            width: SizeConfig.screenWidth * 0.9,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                QrImage(
-                  data: text,
-                  version: QrVersions.auto,
-                  size: size,
-                  gapless: false,
-                  // embeddedImage: AssetImage('assets/images/my_embedded_image.png'),
-                  // embeddedImageStyle: QrEmbeddedImageStyle(
-                  //   size: Size(80, 80),
-                  // ),
-                ),
-                SizedBox(height: responsiveHeight(10),),
-                CustomTimer(
-                  controller: _controller,
-                  begin: Duration(seconds: 30),
-                  end: Duration(),
-                  onChangeState: (value){
-                    if(value == CustomTimerState.finished)
-                       setState(() { timeOut = true; });
-                  },
-                  builder: (remaining) {
-                    return CustomComplexTextButton(
-                        responsiveHeight(35), SizeConfig.screenWidth * 0.55, responsiveSize(50),
-                        "${remaining.seconds}.${remaining.milliseconds}",
-                        ColorResources.BLACK, ColorResources.LIGHT_GREY, responsiveSize(16), (){});
-                  },
-                ),
-                SizedBox(height: responsiveHeight(10),),
-                timeOut == true?
-                CustomComplexTextButton(
-                    responsiveHeight(35), SizeConfig.screenWidth * 0.55, responsiveSize(50),
-                    "إعادة إصدار", ColorResources.BLACK, ColorResources.PRIMARY_COLOR, responsiveSize(16), (){
-                   _controller.reset();
-                   _controller.start();
-                   setState(() { timeOut = false; });
-                }) : Container()
-              ],
-            ),
-          );
-        }
-      ),
-      style: AlertStyle(
-        animationType: AnimationType.shrink,
-        isOverlayTapDismiss: true,
-        // Close when tap outside the alert
-        alertPadding: EdgeInsets.zero,
-        // Internal Padding
-        buttonAreaPadding: EdgeInsets.zero,
-        // Internal Padding
-        isCloseButton: false,
-        // Close Button
-        isButtonVisible: false,
-        // Close Button
-
-        descTextAlign: TextAlign.center,
-
-        alertBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(responsiveSize(20)),
-          side: BorderSide(color: Colors.white, width: 1.5),
-        ),
-        overlayColor:
-        Color(0x55000000).withOpacity(0.5), // Alert Background color
-        //alertElevation: 0,
-      ),
-    );
-  }
 
   // Functions
-  void onEnterClick(){
-    QRCodeServices.qr_type1(context, 12324).then((value){
-      showQRCode(context, value!, 240).show();
-    });
+  void getQRCode(){
+
   }
 
   //

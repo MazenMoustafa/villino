@@ -12,6 +12,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:share/share.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vallino/http/qr_service.dart';
 import 'package:vallino/util/color_resources.dart';
 import 'package:vallino/util/size_config.dart';
@@ -39,97 +40,142 @@ class _GuetFormScreenState extends State<GuetFormScreen> {
 
   DateTime selectedDate = DateTime.now();
 
+  late SharedPreferences prefs;
+
+
+  @override
+  void initState() {
+    initAwaits();
+  }
+
+  Future<void> initAwaits() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent, //or set color with: Color(0xFF0000FF)
     ));
     return Scaffold(
-      appBar: AppBars.registrationAppBar(
-          "زائر", ColorResources.WHITE, ColorResources.PRIMARY_COLOR),
-      body: SingleChildScrollView(
-        child: Form(
-            key: formGlobalKey,
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: Text("زائر", style: TextStyle(color: ColorResources.WHITE,fontSize: 30),),
+        centerTitle: true,
+        backgroundColor: ColorResources.PRIMARY_COLOR,
+        elevation: 0,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(10),
+          child: Container(
+            height: 10,
+            decoration: BoxDecoration(
+              // color: ColorResources.WHITE,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(200.0)),
+            ),
+          ),
+        ),
+      ),
+      body: Container(
+        height: SizeConfig.screenHeight,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Form(
+                key: formGlobalKey,
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        height: responsiveHeight(40),
-                      ),
-                      Container(
-                        width: SizeConfig.screenWidth * 0.9,
-                        child: TextFormField(
-                          validator: MultiValidator([
-                            RequiredValidator(errorText: "Required"),
-                          ]),
-                          controller: nameContronller,
-                          decoration: decoration(
-                              "اسم الزائر",
-                              ColorResources.TF_TEXT_COLOR,
-                              "assets/image/ic_visitor_name.png"),
-                        ),
-                      ),
-                      SizedBox(
-                        height: responsiveHeight(15),
-                      ),
-                      Row(children: [
-                        Container(
-                          padding: EdgeInsets.only(right: responsiveWidth(15)),
-                          width: SizeConfig.screenWidth * 0.7,
-                          child: TextFormField(
-                            validator: MultiValidator([
-                              RequiredValidator(errorText: "Required"),
-                              LYDPhoneValidator(errorText: "Numbers")
-                            ]),
-                            controller: phoneContronller,
-                            decoration: decoration(
-                                "رقم تليفون الزائر",
-                                ColorResources.TF_TEXT_COLOR,
-                                "assets/image/ic_phone.png"),
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: responsiveHeight(40),
                           ),
-                        ),
-                      ]),
+                          Container(
+                            width: SizeConfig.screenWidth * 0.9,
+                            child: TextFormField(
+                              validator: MultiValidator([
+                                RequiredValidator(errorText: "هذا الحقل يجب الا يترك فارغاً"),
+                              ]),
+                              controller: nameContronller,
+                              decoration: decoration(
+                                  "اسم الزائر",
+                                  ColorResources.TF_TEXT_COLOR,
+                                  "assets/image/ic_visitor_name.png"),
+                            ),
+                          ),
+                          SizedBox(
+                            height: responsiveHeight(15),
+                          ),
+                          Container(
+                            width: SizeConfig.screenWidth * 0.9,
+                            child: TextFormField(
+                              validator: MultiValidator([
+                                RequiredValidator(errorText: "هذا الحقل يجب الا يترك فارغاً"),
+                                LYDPhoneValidator(errorText: "Numbers")
+                              ]),
+                              controller: phoneContronller,
+                              decoration: decoration(
+                                  "رقم تليفون الزائر",
+                                  ColorResources.TF_TEXT_COLOR,
+                                  "assets/image/ic_phone.png"),
+                            ),
+                          ),
+                          SizedBox(
+                            height: responsiveHeight(15),
+                          ),
+                          Container(
+                            width: SizeConfig.screenWidth * 0.9,
+                            child: TextFormField(
+                              onTap: () {
+                                _selectDate(context);
+                              },
+                              validator: MultiValidator([
+                                RequiredValidator(errorText: "هذا الحقل يجب الا يترك فارغاً"),
+                              ]),
+                              readOnly: true,
+                              controller: visitDateContronller,
+                              decoration: decoration(
+                                  "تاريخ الزيارة",
+                                  ColorResources.TF_TEXT_COLOR,
+                                  "assets/image/ic_visit_date.png"),
+                            ),
+                          ),
+                        ],
+                      ),
                       SizedBox(
                         height: responsiveHeight(15),
                       ),
-                      Container(
-                        width: SizeConfig.screenWidth * 0.9,
-                        child: TextFormField(
-                          onTap: () {
-                            _selectDate(context);
-                          },
-                          validator: MultiValidator([
-                            RequiredValidator(errorText: "Required"),
-                          ]),
-                          readOnly: true,
-                          controller: visitDateContronller,
-                          decoration: decoration(
-                              "تاريخ الزيارة",
-                              ColorResources.TF_TEXT_COLOR,
-                              "assets/image/ic_visit_date.png"),
-                        ),
-                      ),
+                      Padding(
+                          padding: EdgeInsets.only(bottom: responsiveHeight(20)),
+                          child: LongCustomSimpleTextButton(
+                              "إصدار الكود", onScanClicked)),
                     ],
                   ),
-                  SizedBox(
-                    height: SizeConfig.screenHeight * 0.45,
-                  ),
-                  Padding(
-                      padding: EdgeInsets.only(bottom: responsiveHeight(20)),
-                      child: LongCustomSimpleTextButton(
-                          "مسح الكود", onScanClicked)),
-                ],
+                )),
+            Container(
+              width: SizeConfig.screenWidth,
+              height: responsiveHeight(150),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: AssetImage("assets/image/background1.png"),
+                ),
               ),
-            )),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   // UI
   Future<void> _selectDate(BuildContext context) async {
+    log(SizeConfig.screenHeight.toString());
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -163,7 +209,7 @@ class _GuetFormScreenState extends State<GuetFormScreen> {
   // Functions
   void onScanClicked() {
     if (formGlobalKey.currentState!.validate()) {
-      QRCodeServices.qr_type2(context, 12324, visitDateContronller.text)
+      QRCodeServices.qr_type2(context, prefs.getInt("user_id")!, visitDateContronller.text)
           .then((value) {
         showQRCode(context, value!, 240).show();
       });
@@ -184,15 +230,18 @@ class _GuetFormScreenState extends State<GuetFormScreen> {
           children: [
             RepaintBoundary(
               key: globalKey,
-              child: QrImage(
-                data: text,
-                version: QrVersions.auto,
-                size: size,
-                gapless: false,
-                // embeddedImage: AssetImage('assets/images/my_embedded_image.png'),
-                // embeddedImageStyle: QrEmbeddedImageStyle(
-                //   size: Size(80, 80),
-                // ),
+              child: Container(
+        color: ColorResources.WHITE,
+                child: QrImage(
+                  data: text,
+                  version: QrVersions.auto,
+                  size: size,
+                  gapless: false,
+                  // embeddedImage: AssetImage('assets/images/my_embedded_image.png'),
+                  // embeddedImageStyle: QrEmbeddedImageStyle(
+                  //   size: Size(80, 80),
+                  // ),
+                ),
               ),
             ),
             SizedBox(
@@ -206,13 +255,13 @@ class _GuetFormScreenState extends State<GuetFormScreen> {
                 ColorResources.WHITE,
                 ColorResources.PRIMARY_COLOR,
                 responsiveSize(16), () async {
-              //try {
-                // RenderRepaintBoundary boundary =
-                // globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary;
-                // var image = await boundary.toImage();
-                // ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
-                // Uint8List? pngBytes = byteData?.buffer.asUint8List();
-                // var bs64 = base64Encode(pngBytes!);
+              // try {
+              // RenderRepaintBoundary boundary =
+              // globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary;
+              // var image = await boundary.toImage(pixelRatio: 3.0);
+              // ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
+              // Uint8List? pngBytes = byteData?.buffer.asUint8List();
+              // var bs64 = base64Encode(pngBytes!);
               //   await WcFlutterShare.share(
               //       sharePopupTitle: "",
               //       //subject: ,
@@ -222,7 +271,7 @@ class _GuetFormScreenState extends State<GuetFormScreen> {
               // } catch (e) {
               //   print(e.toString());
               // }
-              //}
+              // }
 
               RenderRepaintBoundary boundary = globalKey.currentContext!
                   .findRenderObject() as RenderRepaintBoundary;
@@ -230,7 +279,7 @@ class _GuetFormScreenState extends State<GuetFormScreen> {
               var image = await boundary.toImage();
 
               ByteData? byteData =
-              await image.toByteData(format: ImageByteFormat.png);
+                  await image.toByteData(format: ImageByteFormat.png);
 
               Uint8List pngBytes = byteData!.buffer.asUint8List();
 //app directory for storing images.
@@ -246,11 +295,9 @@ class _GuetFormScreenState extends State<GuetFormScreen> {
               await Share.shareFiles(
                 [file!.path],
                 mimeTypes: ["image/png"],
-                text: "Share the QR Code",
+                text: "This is invitation QR code to villino",
               );
-
-  }
-            ),
+            }),
           ],
         ),
       ),

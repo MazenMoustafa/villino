@@ -26,7 +26,7 @@ class AppBars{
   static PreferredSizeWidget homeAppBar(BuildContext context){
     return AppBar(
       backgroundColor: ColorResources.WHITE,
-      title: Text("الرئيسية", style: TextStyle(color: ColorResources.BLACK, fontWeight: FontWeight.bold),),
+      title: Text("الرئيسية"),
       centerTitle: true,
       actions: [
         CustomCircularImageButton(

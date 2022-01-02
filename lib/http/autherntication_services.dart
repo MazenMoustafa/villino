@@ -3,11 +3,13 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vallino/util/app_constants.dart';
 import 'package:vallino/view/shared/toasts.dart';
 
 class AuthenticationServices{
-  static Future<bool> login(BuildContext context, String email, String password,) async {
+  static Future<String?> login(BuildContext context, String email, String password,) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     // Uri
     var request = MultipartRequest(
         'POST', Uri.parse("https://villino.e-compound.com/api/login"));
@@ -32,15 +34,19 @@ class AuthenticationServices{
       var bodyJson = jsonDecode(body);
       if (bodyJson['success'] == false) {
         showToast(context, bodyJson['message']);
-        return false;
+        return null;
       } else {
-        //showToast(context, getTranslated(context, "Message was sent")!);
-        return true;
+
+        log("Login");
+        log("User Id " + bodyJson['result']['id'].toString());
+        prefs.setInt("user_id", bodyJson['result']['id']);
+
+        return bodyJson['result']['token'];
       }
     } else {
       log("errorss");
       showToast(context, "We ran into problem");
-      return false;
+      return null;
     }
   }
 
