@@ -24,6 +24,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_localizations: # Add this line
+    sdk: flutter
+
   cupertino_icons: ^1.0.2
   shared_preferences: ^2.0.8 # store local data
   http: ^0.13.4 # make http requests
@@ -33,6 +36,9 @@ dependencies:
   rflutter_alert: ^2.0.4 # Animated dialog
   carousel_slider: ^4.0.0 # Image Carousel
   custom_timer: ^0.1.1 # Countdown
+  another_flushbar: ^1.10.26 # Toasts and alerts
+  wc_flutter_share: ^0.4.0 # Share
+  share: ^2.0.4
 
 dev_dependencies:
   flutter_test:

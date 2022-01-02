@@ -4,8 +4,10 @@ import 'dart:developer';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:vallino/http/qr_service.dart';
 import 'package:vallino/util/color_resources.dart';
 import 'package:vallino/util/size_config.dart';
 import 'package:vallino/view/shared/appBars.dart';
@@ -23,6 +25,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent, //or set color with: Color(0xFF0000FF)
+    ));
     return Scaffold(
       appBar: AppBars.homeAppBar(context),
 
@@ -36,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                sectionElement("دخول فالينو", "assets/image/home_enter.png", (){showQRCode(context, "HHHHHHHHHHHHHHH", 240).show();}),
+                sectionElement("دخول فالينو", "assets/image/home_enter.png", (){onEnterClick();}),
                 SizedBox(width: responsiveWidth(10),),
                 sectionElement("الخدمات", "assets/image/home_services.png", null)
               ],
@@ -175,6 +180,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Functions
+  void onEnterClick(){
+    QRCodeServices.qr_type1(context, 12324).then((value){
+      showQRCode(context, value!, 240).show();
+    });
+  }
 
   //
 }

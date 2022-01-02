@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:vallino/http/about_us.dart';
 import 'package:vallino/util/size_config.dart';
 import 'package:vallino/view/shared/images/custom_assets_image.dart';
 class AboutUsScreen extends StatefulWidget {
@@ -9,8 +11,20 @@ class AboutUsScreen extends StatefulWidget {
 }
 
 class _AboutUsScreenState extends State<AboutUsScreen> {
+  late Future whoAreWeFuture;
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    whoAreWeFuture = AboutUsServices.getAboutDetails(context);
+  }
+  
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent, //or set color with: Color(0xFF0000FF)
+    ));
     return Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
@@ -58,8 +72,8 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                   Text("عن فالينو",style: TextStyle(fontSize: 25),),
 
 
-
-                  Text("مثل العديد من المفاهيم الأخرى ، فإن المنتجع مصطلح يستخدم بشكل متكرر في لغتنا ، على الرغم من عدم التعرف عليه من قبل الأكاديمية الملكية الإسبانية ( RAE ). إنها كلمة إنجليزية تشير إلى مجمع سياحي .بشكل متكرر في لغتنا ، على الرغم من عدم التعرف عليه من قبل الأكاديمية الملكية الإسبانية ( RAE ). إنها كلمة إنجليزية تشير إلى مجمع سياحي"),
+                  renderAboutUsText(),
+                  //Text("مثل العديد من المفاهيم الأخرى ، فإن المنتجع مصطلح يستخدم بشكل متكرر في لغتنا ، على الرغم من عدم التعرف عليه من قبل الأكاديمية الملكية الإسبانية ( RAE ). إنها كلمة إنجليزية تشير إلى مجمع سياحي .بشكل متكرر في لغتنا ، على الرغم من عدم التعرف عليه من قبل الأكاديمية الملكية الإسبانية ( RAE ). إنها كلمة إنجليزية تشير إلى مجمع سياحي"),
 
                   SizedBox(
                     height:responsiveHeight(5) ,
@@ -82,4 +96,21 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
         )
     );
   }
+
+  // UI
+  Widget renderAboutUsText() {
+    return FutureBuilder(
+        future: whoAreWeFuture,
+        builder: (BuildContext ctx, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container();
+          } else
+            if (snapshot.hasError)
+            return Text("Error");
+          else {
+            return Text(snapshot.data);
+          }
+        });
+  }
+
 }

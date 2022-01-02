@@ -1,7 +1,7 @@
 
 class AppConstants {
 
-  static const String MAIN_URL = 'http://127.0.0.1:8000/api/'; // For Real Devices => run in terminal -> adb reverse tcp:8000 tcp:8000
+  static const String MAIN_URL = 'https://villino.e-compound.com/api/'; // For Real Devices => run in terminal -> adb reverse tcp:8000 tcp:8000
   //static const String MAIN_URL = ''; // For Emulator
 
   static const String GET_ALL_ADS = 'https://omar.tqnia.me/onstore2/';

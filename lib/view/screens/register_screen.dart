@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:vallino/http/autherntication_services.dart';
 import 'package:vallino/util/color_resources.dart';
 import 'package:vallino/util/size_config.dart';
+import 'package:vallino/view/screens/login_screen.dart';
 import 'package:vallino/view/shared/buttons/icon_button.dart';
 import 'package:vallino/view/shared/buttons/text_button.dart';
 import 'package:vallino/view/shared/images/custom_assets_image.dart';
@@ -169,7 +171,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             SizedBox(
                               height: responsiveHeight(15),
                             ),
-                            LongCustomSimpleTextButton("تسجيل الدخول",onLoginClicked),
+                            LongCustomSimpleTextButton("تسجيل الدخول",onRegisterClicked),
                           ],
                         )
                     )
@@ -249,10 +251,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   // Functions
-  void onLoginClicked(){
+  void onRegisterClicked(){
     if(formGlobalKey.currentState!.validate()){
-      // ToDo Call THe API
-      // ToDo Navigate
+      AuthenticationServices.register(context, nameContronller.text, emailContronller.text,
+          phoneContronller.text, passwordContronller.text,
+          27, int.parse(familyMembersNumberContronller.text), int.parse(unitNumberContronller.text) , 131665).then((value){
+            if(value == true)
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => LoginScreen()));
+      });
     }
   }
 

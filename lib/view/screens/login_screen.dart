@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:vallino/http/autherntication_services.dart';
 import 'package:vallino/util/color_resources.dart';
 import 'package:vallino/util/size_config.dart';
+import 'package:vallino/view/screens/home_screen.dart';
 import 'package:vallino/view/screens/register_screen.dart';
 import 'package:vallino/view/shared/appBars.dart';
 import 'package:vallino/view/shared/buttons/text_button.dart';
@@ -58,10 +63,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     width: SizeConfig.screenWidth * 0.9,
                     child: TextFormField(
-                      //validator: ,
+                      validator: MultiValidator([
+                        RequiredValidator(errorText: "Required"),
+                        EmailValidator(errorText: "Email")
+                      ]),
                       controller: phoneContronller,
                       decoration: decoration(
-                          "رقم الهاتف",
+                          "ألبريد الإلكتروني",
                           ColorResources.TF_TEXT_COLOR,
                           "assets/image/ic_visitor_name.png"),
                     ),
@@ -72,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     width: SizeConfig.screenWidth * 0.9,
                     child: TextFormField(
-                      //validator: ,
+                      validator: MinLengthValidator(8, errorText: "Min Length is 8"),
                       controller: passwordContronller,
                       obscureText: true,
 
@@ -97,7 +105,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: responsiveHeight(15),
                   ),
-                  LongCustomSimpleTextButton("تسجيل الدخول", () {}),
+                  LongCustomSimpleTextButton("تسجيل الدخول", () {
+                    onLoginClick();
+                  }),
                   SizedBox(
                     height: SizeConfig.screenHeight * 0.1,
                   ),
@@ -148,12 +158,20 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  // Functions
+  void onLoginClick(){
+    AuthenticationServices.login(context, phoneContronller.text, passwordContronller.text).then((value){
+      if(value == true)
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
+    });
+  }
+
   // Decoration
   InputDecoration decoration(String text, Color textColor, String dir) {
     return InputDecoration(
       //contentPadding: EdgeInsets.symmetric(vertical: responsiveHeight(20), horizontal: responsiveWidth(20)), // The Content PAdding gets changed when an error appears
-
-      labelText: text,
+      floatingLabelBehavior: FloatingLabelBehavior.never,
+      hintText: text,
       labelStyle: TextStyle(color: textColor, height: 0.75),
       fillColor: ColorResources.TF_FILL_COLOR,
       filled: true,

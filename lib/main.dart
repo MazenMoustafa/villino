@@ -6,6 +6,8 @@ import 'package:vallino/view/screens/home_screen.dart';
 import 'package:vallino/view/screens/login_screen.dart';
 import 'package:vallino/view/screens/register_screen.dart';
 import 'package:vallino/view/screens/splash_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 
 import 'view/screens/select_user_screen.dart';
 
@@ -27,15 +29,21 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: [
+        GlobalCupertinoLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale("ar", "AE"), // OR Locale('ar', 'AE') OR Other RTL locales
+      ],
+      locale: Locale("ar", "AE"), // OR Locale('ar', 'AE') OR Other RTL locales,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: Directionality(
-            textDirection: TextDirection.rtl,
-            child: Main()
-        ),
+        body: Main(),
       ),
     );
   }
@@ -54,7 +62,7 @@ class _MainState extends State<Main> {
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
-    return AboutUsScreen();
+    return GuetFormScreen();
   }
 }
 
