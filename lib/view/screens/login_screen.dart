@@ -21,7 +21,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  
+  final formGlobalKey = GlobalKey<FormState>();
   TextEditingController phoneContronller = TextEditingController();
   TextEditingController passwordContronller = TextEditingController();
 
@@ -61,6 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: responsiveHeight(30),
                 ),
                 Form(
+                  key: formGlobalKey,
                     child: Column(
                   children: [
                     Container(
@@ -164,17 +165,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // Functions
   void onLoginClick(){
-    AuthenticationServices.login(context, phoneContronller.text, passwordContronller.text).then((value){
-      if(value != null){
-        // Todo Store User Data
-        SharedPreferences.getInstance().then((prefs){
-          prefs.setString("token", value);
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
-        });
+    if(formGlobalKey.currentState!.validate()){
+      AuthenticationServices.login(context, phoneContronller.text, passwordContronller.text).then((value){
+        if(value != null){
+          // Todo Store User Data
+          SharedPreferences.getInstance().then((prefs){
+            prefs.setString("token", value);
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
+          });
 
-      }
+        }
 
-    });
+      });
+    }
+
   }
 
   // Decoration

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vallino/http/about_us_services.dart';
 import 'package:vallino/util/size_config.dart';
 import 'package:vallino/view/shared/images/custom_assets_image.dart';
@@ -75,7 +76,10 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                   //       javascriptMode: JavascriptMode.unrestricted,
                   //     )),
 
-                  CustomAssetsImage(SizeConfig.screenHeight * 0.2, SizeConfig.screenWidth * 0.9, "assets/image/about_us_map.png"),
+                  GestureDetector(
+                      onTap: (){openMap();},
+                      child: CustomAssetsImage(SizeConfig.screenHeight * 0.2, SizeConfig.screenWidth * 0.9, "assets/image/about_us_map.png")
+                  ),
                   SizedBox(
                     height:responsiveHeight(10) ,
                   ),
@@ -98,7 +102,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
             if (snapshot.hasError)
             return Text("Error");
           else {
-            return Text("snapshot.data");
+            return Text(snapshot.data);
           }
         });
   }
@@ -145,6 +149,14 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
             );
           }
         });
+  }
+
+  // Function
+
+  Future<void> openMap() async {
+    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=30.060734,31.220130';
+    await launch(googleUrl);
+
   }
 
 }

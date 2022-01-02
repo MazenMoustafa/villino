@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       sectionElement("الاحداث و الفعاليات", "assets/image/home_events.png", (){showToast(context, "سوف يتم تفعيل هذا القسم قريباً");}),
                       SizedBox(width: responsiveWidth(10),),
-                      sectionElement("عن فالينو", "assets/image/home_forum.png", (){Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => AboutUsScreen()));})
+                      sectionElement("عن فالينو", "assets/image/home_about.png", (){Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => AboutUsScreen()));})
                     ],
                   ),
                 ],
