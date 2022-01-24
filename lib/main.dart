@@ -4,6 +4,7 @@ import 'package:vallino/view/screens/about_us_screen.dart';
 import 'package:vallino/view/screens/guest_form_screen.dart';
 import 'package:vallino/view/screens/home_screen.dart';
 import 'package:vallino/view/screens/login_screen.dart';
+import 'package:vallino/view/screens/notifications_screen.dart';
 import 'package:vallino/view/screens/register_screen.dart';
 import 'package:vallino/view/screens/splash_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -63,7 +64,7 @@ class _MainState extends State<Main> {
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
-    return SplashScreen();
+    return NotificationsScreen();
   }
 }
 

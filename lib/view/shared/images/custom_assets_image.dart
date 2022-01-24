@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vallino/util/color_resources.dart';
 
 class CustomAssetsImage extends StatefulWidget {
   double height;
@@ -31,5 +32,35 @@ class _CustomAssetsImageState extends State<CustomAssetsImage> {
         ),
       ),
     );
+  }
+}
+
+
+class CustomBorderedAssetsImage extends StatefulWidget {
+  double btnWidth;
+  double btnHeight;
+  String dir;
+   CustomBorderedAssetsImage({Key? key,required this.btnWidth,required this.btnHeight,required this.dir}) : super(key: key);
+
+  @override
+  _CustomBorderedAssetsImageState createState() => _CustomBorderedAssetsImageState();
+}
+
+class _CustomBorderedAssetsImageState extends State<CustomBorderedAssetsImage> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: widget.btnHeight,
+      width: widget.btnWidth,
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          //borderRadius: BorderRadius.circular(widget.radius),
+        border: Border.all(color: ColorResources.BLACK, width: 0.5)
+      ),
+      child: Center(
+        child: Image.asset(widget.dir)
+      ),
+    );
+
   }
 }
