@@ -36,10 +36,8 @@ class AuthenticationServices{
         showToast(context, bodyJson['message']);
         return null;
       } else {
-
-        log("Login");
-        log("User Id " + bodyJson['result']['id'].toString());
         prefs.setInt("user_id", bodyJson['result']['id']);
+        prefs.setString("user_name", bodyJson['result']['name']);
 
         return bodyJson['result']['token'];
       }
@@ -81,14 +79,14 @@ class AuthenticationServices{
     StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      log("200");
       var body = await response.stream.bytesToString();
       var bodyJson = jsonDecode(body);
       if (bodyJson['success'] == false) {
         showToast(context, bodyJson['message']);
         return false;
       } else {
-        //showToast(context, getTranslated(context, "Message was sent")!);
+        showToast(context, "لقد تم التسجيل بنجاح و في انتظار موافقة الإدارة. جاري التحويل..");
+        await Future.delayed(new Duration(seconds: 3));
         return true;
       }
     } else {

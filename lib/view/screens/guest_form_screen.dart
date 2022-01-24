@@ -116,7 +116,7 @@ class _GuetFormScreenState extends State<GuetFormScreen> {
                             child: TextFormField(
                               validator: MultiValidator([
                                 RequiredValidator(errorText: "هذا الحقل يجب الا يترك فارغاً"),
-                                LYDPhoneValidator(errorText: "Numbers")
+                                LYDPhoneValidator(errorText: "هذا الحقل يجب أن يتكون من أرقام فقط")
                               ]),
                               controller: phoneContronller,
                               decoration: decoration(
@@ -175,7 +175,6 @@ class _GuetFormScreenState extends State<GuetFormScreen> {
 
   // UI
   Future<void> _selectDate(BuildContext context) async {
-    log(SizeConfig.screenHeight.toString());
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -193,12 +192,8 @@ class _GuetFormScreenState extends State<GuetFormScreen> {
           );
         });
 
-    if (picked != null && picked != selectedDate) {
-      String date = selectedDate.day.toString() +
-          "-" +
-          selectedDate.month.toString() +
-          "-" +
-          selectedDate.year.toString();
+    if (picked != null) {
+      String date = picked.day.toString() + "-" + picked.month.toString() + "-" + picked.year.toString();
       visitDateContronller.text = date;
       setState(() {
         selectedDate = picked;
@@ -295,7 +290,7 @@ class _GuetFormScreenState extends State<GuetFormScreen> {
               await Share.shareFiles(
                 [file!.path],
                 mimeTypes: ["image/png"],
-                text: "This is invitation QR code to villino",
+                text: visitDateContronller.text  + "' للزيارة في التاريخ الموافق  " + prefs.getString("user_name")! + "'لديك دعوة من السيد ",
               );
             }),
           ],

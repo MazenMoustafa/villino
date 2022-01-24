@@ -51,8 +51,8 @@ class _PhoneStatePickerState extends State<PhoneStatePicker> {
         return countries.map((CountryModel value) {
           return Center(
             child: Container(
-              // height: responsiveHeight(20),
-              // width: responsiveWidth(20),
+              height: responsiveHeight(25),
+              width: responsiveWidth(25),
               decoration: BoxDecoration(
                   color: ColorResources.PRIMARY_COLOR.withOpacity(0),
                   image : DecorationImage(

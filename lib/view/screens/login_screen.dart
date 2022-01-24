@@ -73,9 +73,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ]),
                         controller: phoneContronller,
                         decoration: decoration(
-                            "البريد الإلكتروني",
-                            ColorResources.TF_TEXT_COLOR,
-                            "assets/image/ic_visitor_name.png"),
+                            "البريد الإلكتروني أو رقم الهاتف",
+                            "assets/image/ic_visitor_name.png",responsiveHeight(30),
+                            responsiveWidth(30)),
+
                       ),
                     ),
                     SizedBox(
@@ -90,8 +91,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         decoration: decoration(
                             "كلمة المرور",
-                            ColorResources.TF_TEXT_COLOR,
-                            "assets/image/ic_lock.png"),
+                            "assets/image/ic_lock.png",
+                            responsiveHeight(23),
+                          responsiveWidth(23)
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -182,15 +185,15 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   // Decoration
-  InputDecoration decoration(String text, Color textColor, String dir) {
+  InputDecoration decoration(String text, String dir, double height, double width) {
     return InputDecoration(
       //contentPadding: EdgeInsets.symmetric(vertical: responsiveHeight(20), horizontal: responsiveWidth(20)), // The Content PAdding gets changed when an error appears
       floatingLabelBehavior: FloatingLabelBehavior.never,
       hintText: text,
-      labelStyle: TextStyle(color: textColor, height: 0.75),
+      labelStyle: TextStyle(color: ColorResources.TF_TEXT_COLOR, height: 0.75),
       fillColor: ColorResources.TF_FILL_COLOR,
       filled: true,
-      prefixIconConstraints: BoxConstraints(minHeight: 30, minWidth: 30),
+      prefixIconConstraints: BoxConstraints(minHeight: height, minWidth: width),
       border: OutlineInputBorder(
         borderSide: BorderSide.none,
         borderRadius: BorderRadius.circular(50),
@@ -202,8 +205,8 @@ class _LoginScreenState extends State<LoginScreen> {
           bottom: responsiveHeight(10),
         ),
         child: Container(
-          height: 30,
-          width: 30,
+          height: height,
+          width: width,
           decoration: BoxDecoration(
               image: DecorationImage(
             fit: BoxFit.fill,

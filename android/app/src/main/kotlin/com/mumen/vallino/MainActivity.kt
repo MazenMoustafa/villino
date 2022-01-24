@@ -1,4 +1,4 @@
-package com.mumen.vallino
+package com.infovas.villino
 
 import io.flutter.embedding.android.FlutterActivity
 

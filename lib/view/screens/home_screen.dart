@@ -285,7 +285,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              Text(text, style: TextStyle(fontSize: responsiveSize(18)),)
+              Text(text, style: TextStyle(fontSize: responsiveSize(15)),)
             ],
           )
         ),

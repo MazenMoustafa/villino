@@ -45,7 +45,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               // Body
               Padding(
-                padding: EdgeInsets.symmetric(vertical: responsiveHeight(15.0), horizontal: responsiveWidth(20)),
+                padding: EdgeInsets.symmetric(vertical: responsiveHeight(15.0), horizontal: SizeConfig.screenWidth*0.05),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -62,6 +62,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: Column(
                           children: [
                             Container(
+                              height: responsiveHeight(65),
                               width: SizeConfig.screenWidth * 0.9,
                               child: TextFormField(
                                 validator: MultiValidator([
@@ -81,18 +82,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    width: SizeConfig.screenWidth * 0.75,
+                                    height: responsiveHeight(65),
+                                    width: SizeConfig.screenWidth * 0.70,
                                     child: TextFormField(
                                       validator: MultiValidator([
                                         RequiredValidator(errorText: "هذا الحقل يجب الا يترك فارغاً"),
-                                        LYDPhoneValidator(errorText: "Numbers")
+                                        LYDPhoneValidator(errorText: "هذا الحقل يجب أن يتكون من أرقام فقط")
                                       ]),
                                       controller: phoneContronller,
                                       decoration: decoration("رقم الهاتف", ColorResources.TF_TEXT_COLOR),
                                     ),
                                   ),
                                   Container(
-                                      width: SizeConfig.screenWidth * 0.13,
+                                      width: SizeConfig.screenWidth * 0.19,
                                       child: PhoneStatePicker()
                                   )
                                 ]
@@ -103,11 +105,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
 
                             Container(
-
+                              height: responsiveHeight(65),
                               child: TextFormField(
                                 validator: MultiValidator([
                                   RequiredValidator(errorText: "هذا الحقل يجب الا يترك فارغاً"),
-                                  LYDPhoneValidator(errorText: "Numbers")
+                                  LYDPhoneValidator(errorText: "هذا الحقل يجب أن يتكون من أرقام فقط")
                                 ]),
                                 controller: familyMembersNumberContronller,
                                 decoration: decoration("عدد أفراد الأسرة", ColorResources.TF_TEXT_COLOR),
@@ -119,7 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
 
                             Container(
-
+                              height: responsiveHeight(65),
                               child: TextFormField(
                                 validator: MultiValidator([
                                   RequiredValidator(errorText: "هذا الحقل يجب الا يترك فارغاً"),
@@ -134,7 +136,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
 
                             Container(
-
+                              height: responsiveHeight(65),
                               child: TextFormField(
                                 validator: MultiValidator([
                                   RequiredValidator(errorText: "هذا الحقل يجب الا يترك فارغاً"),
@@ -150,7 +152,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
 
                             Container(
-
+                              height: responsiveHeight(65),
 
                               child: TextFormField(
                                 validator: MultiValidator([
@@ -229,7 +231,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               state.hasError?
               Padding(
-                padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.03),
+                padding: EdgeInsets.only(left: SizeConfig.screenWidth*0, top: responsiveHeight(10)),
                 child: Text(
                   state.errorText!,
                   style: TextStyle(
@@ -245,7 +247,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         },
         validator: (value) {
           if(terms == false)
-            return "Please accept the terms to register";
+            return "الرجاء الموافقة علي الشروط و الأحكام لإكمال عملية التسجيل";
         }
 
     );
@@ -267,10 +269,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   // Decorations
   InputDecoration decoration(String text, Color textColor) {
     return InputDecoration(
-        //contentPadding: EdgeInsets.symmetric(vertical: responsiveHeight(20), horizontal: responsiveWidth(20)), // The Content PAdding gets changed when an error appears
+      contentPadding: EdgeInsets.symmetric(vertical: responsiveHeight(20), horizontal: responsiveWidth(20)), // The Content PAdding gets changed when an error appears
       floatingLabelBehavior: FloatingLabelBehavior.never,
       labelText: text,
-        labelStyle: TextStyle(color: textColor, fontWeight: FontWeight.w100, fontSize: 12),
+        labelStyle: TextStyle(color: textColor,  fontSize: 12),
         fillColor: ColorResources.TF_FILL_COLOR,
         filled: true,
       prefixIconConstraints: BoxConstraints(

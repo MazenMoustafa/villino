@@ -10,6 +10,7 @@ class CustomNetworkImage extends StatefulWidget {
   _CustomNetworkImageState createState() => _CustomNetworkImageState(this.height, this.width, this.dir);
 }
 
+
 class _CustomNetworkImageState extends State<CustomNetworkImage> {
 
   double height;

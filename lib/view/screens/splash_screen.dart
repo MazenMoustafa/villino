@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigate(){
-    Timer(Duration(seconds: 2), () {
+    Timer(Duration(seconds: 3), () {
       if(prefs.containsKey("token"))
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
       else
@@ -50,24 +50,37 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
         body:SafeArea(
           child: Container(
-            width: double.infinity,
               height: SizeConfig.screenHeight,
               child:Column(
-                mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                // crossAxisAlignment:CrossAxisAlignment.center,
                 children: [
                   Container(
                   ),
-                  CustomAssetsImage(SizeConfig.screenHeight * 0.15,
-                      SizeConfig.screenWidth * 0.68, "assets/image/splash_logo.png"),
+                  Container(
+                    height: SizeConfig.screenHeight * 0.15,
+                    width: SizeConfig.screenWidth * 0.68,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage("assets/image/splash_logo.png"),
+                      )
+                    ),
+                  ),
                   Column(
                     children: [
                       Text("Powered By Ivas", style: TextStyle(fontSize: 12),),
                       Padding(
                         padding:  EdgeInsets.only(bottom: responsiveHeight(20)),
-                        child: CustomAssetsImage(SizeConfig.screenHeight * 0.05,
-                            SizeConfig.screenWidth * 0.13, "assets/image/splash_footer.png"),
+                        child: Container(
+                          height: SizeConfig.screenHeight * 0.05,
+                          width: SizeConfig.screenWidth * 0.13,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage("assets/image/splash_footer.png"),
+                              )
+                          ),
+                        ),
                       ),
                     ],
                   )
