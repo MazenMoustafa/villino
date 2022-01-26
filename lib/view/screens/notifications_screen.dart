@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vallino/http/notifications_services.dart';
+import 'package:vallino/models/notification.dart';
 import 'package:vallino/util/color_resources.dart';
 import 'package:vallino/util/size_config.dart';
 import 'package:vallino/view/shared/appBars.dart';
@@ -13,6 +15,13 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
+  late Future notifications ;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    notifications = NotificationServices.getNotifications(context);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,15 +37,35 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         padding:  EdgeInsets.symmetric(vertical: responsiveHeight(20),horizontal:responsiveWidth(10)),
         child:Column(
           children: [
-            notification(),
-            SizedBox(
-              height: responsiveHeight(15),
-            ),
-            notification(),
-            SizedBox(
-              height: responsiveHeight(15),
-            ),
-            notification(),
+            Expanded(
+              child: FutureBuilder(
+            future: notifications,
+            builder: (BuildContext ctx, AsyncSnapshot snapshot) {
+              // if (snapshot.connectionState == ConnectionState.none &&
+              //     snapshot.hasData == null) {
+              //   //print('project snapshot data is: ${projectSnap.data}');
+              //   return Text("NONE");
+              // }
+              // else
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Container();
+              } else if (snapshot.hasError){
+                  return Text("Error");
+
+              }
+               else if(snapshot.connectionState == ConnectionState.done) {
+                return ListView.separated(
+                    itemBuilder: (context,index)=> notification(snapshot.data[index]),
+                    separatorBuilder:(context,index)=> SizedBox(
+                      height: responsiveHeight(15),
+                    ) ,
+                    itemCount: snapshot.data.length);
+              }
+               else
+                 return Container();
+            }),
+            )
+
           ],
         ),
       ),
@@ -44,7 +73,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 }
 
-Widget notification(){
+Widget notification(NotificationModel notification){
   return
     Container(
       width: double.infinity,
@@ -63,7 +92,7 @@ Widget notification(){
           SizedBox(
              width: responsiveWidth(60)
           ),
-          Text("عنوان الإشعار",style: TextStyle(fontSize: responsiveSize(20)),)
+          Text("${notification.name}",style: TextStyle(fontSize: responsiveSize(20)),)
            ]
       ),
 
@@ -74,7 +103,7 @@ Widget notification(){
               width: responsiveWidth(15),
             ),
             Expanded(
-                child: Text("تفاصيل الإشعار ",style: TextStyle(color: ColorResources.NOTIFICATION_GREY),)
+                child: Text(notification.details,style: TextStyle(color: ColorResources.NOTIFICATION_GREY),)
             ),
           ],
 
