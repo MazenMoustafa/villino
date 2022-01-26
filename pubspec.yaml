@@ -41,6 +41,8 @@ dependencies:
   share: ^2.0.4
   webview_flutter: ^3.0.0
   url_launcher: ^6.0.17
+  onesignal_flutter: ^3.2.7
+  firebase_core: ^1.1.0
 
 dev_dependencies:
   flutter_test:

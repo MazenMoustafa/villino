@@ -3,11 +3,13 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://plugins.gradle.org/m2/' } //add this line
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.6, 0.99.99]'
     }
 }
 
@@ -15,6 +17,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+
     }
 }
 
@@ -25,6 +28,7 @@ subprojects {
 subprojects {
     project.evaluationDependsOn(':app')
 }
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir
